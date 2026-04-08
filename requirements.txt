@@ -1,0 +1,8 @@
+openai==1.79.0
+neo4j==5.28.1
+python-dotenv==1.0.1
+PyMuPDF==1.26.0
+pydantic==2.11.3
+pyvis==0.3.2
+networkx==3.4.2
+typer==0.15.2

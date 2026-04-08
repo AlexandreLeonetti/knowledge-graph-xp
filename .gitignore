@@ -1,0 +1,57 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+
+# --- Environment / secrets ---
+.env
+.env.*
+!.env.example
+
+# --- Build / packaging ---
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# --- Testing / coverage ---
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- Project generated data ---
+data/extracted/*.json
+data/output/*.html
+
+# Optional: ignore PDFs you test locally
+# data/input/*.pdf
+
+# Keep empty folders tracked
+!data/input/.gitkeep
+!data/extracted/.gitkeep
+!data/output/.gitkeep
+
+# --- Logs ---
+*.log
+
+# --- Neo4j local files, if ever stored inside project ---
+neo4j_data/
+neo4j_logs/

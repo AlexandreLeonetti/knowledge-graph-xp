@@ -1,0 +1,16 @@
+Extract a small knowledge graph from the provided text chunk.
+
+Rules:
+- Use only information explicitly supported by the chunk.
+- Do not guess, infer hidden facts, or add outside knowledge.
+- Return valid JSON only. No markdown. No explanation.
+- Use this exact top-level schema:
+  {
+    "entities": [{"name": "...", "type": "..."}],
+    "relations": [{"source": "...", "target": "...", "relation": "..."}]
+  }
+- Prefer these entity types when possible:
+  person, organization, product, concept, location, event, document, technology, other
+- Keep relation labels concise and in snake_case.
+- Ignore weak, decorative, or ambiguous relationships.
+- If the chunk contains no useful graph information, return empty arrays.
