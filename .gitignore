@@ -55,3 +55,7 @@ data/output/*.html
 # --- Neo4j local files, if ever stored inside project ---
 neo4j_data/
 neo4j_logs/
+
+
+# -- others
+*.zip
