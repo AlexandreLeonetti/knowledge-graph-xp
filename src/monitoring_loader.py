@@ -8,6 +8,7 @@ from typing import Any
 from config import BASE_DIR, DATA_DIR, EXTRACTED_DIR, OUTPUT_DIR, settings
 from neo4j import GraphDatabase
 from normalize import normalize_whitespace, slugify
+from pipeline_stage_info import STAGE_INFO, StageInfo
 from pdf_loader import load_pdf_pages
 
 
@@ -230,6 +231,9 @@ class ArtifactLoader:
         html = path.read_text(encoding="utf-8")
         return html.replace('src="lib/', 'src="/lib/').replace('href="lib/', 'href="/lib/')
 
+    def get_stage_info(self, key: str) -> StageInfo:
+        return STAGE_INFO[key]
+
     def build_entity_mentions(self, raw_rows: list[dict[str, Any]]) -> dict[str, int]:
         counts: dict[str, int] = {}
         for row in raw_rows:
@@ -316,12 +320,16 @@ class ArtifactLoader:
 
         return {"label": "Reachable", "detail": detail}
 
-    def build_stage_statuses(self) -> list[ArtifactStatus]:
+    def build_stage_statuses(self, neo4j_status: dict[str, str] | None = None) -> list[ArtifactStatus]:
         chunks_artifact = self.load_chunks()
         raw_artifact = self.load_raw_extractions()
         normalization_view = self.build_normalization_view()
         pdf_view = self.load_pdf_extraction(chunks_artifact["data"])
         graph_artifact = self.load_graph_artifact()
+        storage_status = neo4j_status or self.probe_neo4j(
+            normalization_view["entity_count"],
+            normalization_view["relation_count"],
+        )
 
         return [
             ArtifactStatus(
@@ -360,12 +368,28 @@ class ArtifactLoader:
                 href="/normalization",
             ),
             ArtifactStatus(
+                name="Graph storage",
+                slug="graph-storage",
+                description="This writes the normalized entities and relations into Neo4j using Cypher upserts.",
+                available=storage_status["label"] == "Reachable",
+                detail=f"{storage_status['label']}: {storage_status['detail']}",
+                href="/monitor",
+            ),
+            ArtifactStatus(
                 name="Graph visualization",
                 slug="graph",
                 description="This reuses the generated HTML graph so you can inspect the final network view.",
                 available=graph_artifact["exists"],
                 detail="Generated HTML graph is available." if graph_artifact["exists"] else "Graph HTML not available yet.",
                 href="/graph",
+            ),
+            ArtifactStatus(
+                name="Monitoring UI",
+                slug="monitor-ui",
+                description="This FastAPI and Jinja2 layer reads saved artifacts and explains the pipeline in a read-only view.",
+                available=True,
+                detail="The monitoring UI is available when this app is running.",
+                href="/monitor",
             ),
         ]
 
@@ -375,13 +399,14 @@ class ArtifactLoader:
         normalization_view = self.build_normalization_view()
         pdf_view = self.load_pdf_extraction(chunks_artifact["data"])
         graph_artifact = self.load_graph_artifact()
-
-        source_name = chunks_artifact["data"][0]["source"] if chunks_artifact["data"] else None
-        total_pages = len(pdf_view["pages"]) if pdf_view["available"] else None
         neo4j_status = self.probe_neo4j(
             expected_entity_count=normalization_view["entity_count"],
             expected_relation_count=normalization_view["relation_count"],
         )
+
+        source_name = chunks_artifact["data"][0]["source"] if chunks_artifact["data"] else None
+        total_pages = len(pdf_view["pages"]) if pdf_view["available"] else None
+        stages = self.build_stage_statuses(neo4j_status=neo4j_status)
 
         return {
             "source_name": source_name,
@@ -392,7 +417,8 @@ class ArtifactLoader:
             "total_relations": normalization_view["relation_count"],
             "neo4j_status": neo4j_status,
             "graph_available": graph_artifact["exists"],
-            "stages": self.build_stage_statuses(),
+            "stages": stages,
+            "stage_info": STAGE_INFO,
             "artifacts": {
                 "chunks": chunks_artifact,
                 "raw": raw_artifact,

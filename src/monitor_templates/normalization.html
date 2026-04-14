@@ -4,6 +4,8 @@
   <section class="panel">
     <h2>Normalization inspector</h2>
     <p class="help">Normalization merges repeated or inconsistent names into cleaner graph objects. The result is what the Neo4j and HTML graph stages consume.</p>
+    {% set info = stage_info %}
+    {% include "_stage_info_card.html" %}
     {% if view.entity_count or view.relation_count %}
       <div class="stats-grid">
         <div class="stat-card">

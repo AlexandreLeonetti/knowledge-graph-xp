@@ -4,6 +4,8 @@
   <section class="panel">
     <h2>PDF extraction</h2>
     <p class="help">This is the plain text recovered from the source PDF. It comes before chunking, so it helps explain what text the later stages had access to.</p>
+    {% set info = stage_info %}
+    {% include "_stage_info_card.html" %}
     {% if pdf_view.available %}
       <div class="callout">
         <strong>Source PDF:</strong> {{ pdf_view.pdf_path.name }}<br />

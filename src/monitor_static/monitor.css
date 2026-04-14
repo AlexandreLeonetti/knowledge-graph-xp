@@ -126,6 +126,42 @@ main.shell {
   background: #fffaf2;
 }
 
+.stage-info-card {
+  margin: 14px 0;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fcf7ee;
+}
+
+.stage-info-card h3 {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.stage-info-list {
+  margin: 0;
+}
+
+.stage-info-list div {
+  margin-top: 8px;
+}
+
+.stage-info-list div:first-child {
+  margin-top: 0;
+}
+
+.stage-info-list dt {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.stage-info-list dd {
+  margin: 2px 0 0;
+}
+
 .stat-label {
   display: block;
   margin-bottom: 6px;

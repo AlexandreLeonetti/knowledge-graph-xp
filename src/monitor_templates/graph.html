@@ -4,6 +4,8 @@
   <section class="panel">
     <h2>Graph view</h2>
     <p class="help">This page reuses the generated HTML graph instead of rebuilding visualization logic. It shows the final graph after normalization and storage preparation.</p>
+    {% set info = stage_info %}
+    {% include "_stage_info_card.html" %}
     {% if graph_artifact.exists %}
       <div class="callout">
         <strong>Graph artifact found:</strong> {{ graph_artifact.path.name }}<br />

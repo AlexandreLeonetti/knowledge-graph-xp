@@ -1,0 +1,39 @@
+<aside class="stage-info-card">
+  <h3>How This Stage Works</h3>
+  <dl class="stage-info-list">
+    <div>
+      <dt>Stage</dt>
+      <dd>{{ info.display_name }}</dd>
+    </div>
+    <div>
+      <dt>Performed by</dt>
+      <dd>{{ info.performed_by }}</dd>
+    </div>
+    <div>
+      <dt>Type</dt>
+      <dd>{{ info.stage_type }}</dd>
+    </div>
+    <div>
+      <dt>Library</dt>
+      <dd>{{ info.library_or_framework }}</dd>
+    </div>
+    {% if info.model_name %}
+      <div>
+        <dt>Model</dt>
+        <dd><code>{{ info.model_name }}</code></dd>
+      </div>
+    {% endif %}
+    <div>
+      <dt>What it does</dt>
+      <dd>{{ info.short_description }}</dd>
+    </div>
+    <div>
+      <dt>Interview explanation</dt>
+      <dd>{{ info.interview_explanation }}</dd>
+    </div>
+    <div>
+      <dt>Why it matters</dt>
+      <dd>{{ info.why_it_matters }}</dd>
+    </div>
+  </dl>
+</aside>

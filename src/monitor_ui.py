@@ -61,6 +61,7 @@ def pdf_extraction(request: Request):
         "pdf_extraction.html",
         page_title="PDF extraction",
         pdf_view=pdf_view,
+        stage_info=loader.get_stage_info("pdf-extraction"),
     )
 
 
@@ -86,6 +87,7 @@ def chunk_inspector(request: Request, chunk: int = 1):
         selected_chunk=selected,
         selected_index=selected_index,
         missing_message=chunks_artifact["error"] or "Chunks are not available yet.",
+        stage_info=loader.get_stage_info("chunks"),
     )
 
 
@@ -108,6 +110,7 @@ def raw_extraction_inspector(request: Request, item: int = 1):
         selected_row=selected,
         selected_index=selected_index,
         missing_message=raw_artifact["error"] or "Raw extraction records are not available yet.",
+        stage_info=loader.get_stage_info("raw-extractions"),
     )
 
 
@@ -119,6 +122,7 @@ def normalization_inspector(request: Request):
         "normalization.html",
         page_title="Normalization inspector",
         view=view,
+        stage_info=loader.get_stage_info("normalization"),
     )
 
 
@@ -130,6 +134,7 @@ def graph_page(request: Request):
         "graph.html",
         page_title="Graph view",
         graph_artifact=graph_artifact,
+        stage_info=loader.get_stage_info("graph"),
     )
 
 

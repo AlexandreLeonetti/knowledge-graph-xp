@@ -4,6 +4,8 @@
   <section class="panel">
     <h2>Chunk inspector</h2>
     <p class="help">Chunks are the text windows sent to the model. Overlap helps the model keep context when a fact spans a boundary.</p>
+    {% set info = stage_info %}
+    {% include "_stage_info_card.html" %}
     {% if selected_chunk %}
       <div class="toolbar">
         <a class="button-link" href="/chunks?chunk={{ selected_index if selected_index > 0 else 1 }}">Previous</a>

@@ -48,6 +48,8 @@
           </div>
           <p>{{ stage.description }}</p>
           <p class="muted">{{ stage.detail }}</p>
+          {% set info = home.stage_info[stage.slug] %}
+          {% include "_stage_info_card.html" %}
           <a class="button-link" href="{{ stage.href }}">Inspect stage</a>
         </article>
       {% endfor %}

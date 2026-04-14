@@ -4,6 +4,8 @@
   <section class="panel">
     <h2>Raw extraction inspector</h2>
     <p class="help">Raw extraction is the model output before cleanup. This page shows the exact stored response plus a defensive parsed view when possible.</p>
+    {% set info = stage_info %}
+    {% include "_stage_info_card.html" %}
     {% if selected_row %}
       <div class="toolbar">
         <a class="button-link" href="/raw-extractions?item={{ selected_index if selected_index > 0 else 1 }}">Previous</a>
