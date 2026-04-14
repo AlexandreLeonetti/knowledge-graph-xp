@@ -6,3 +6,6 @@ pydantic==2.11.3
 pyvis==0.3.2
 networkx==3.4.2
 typer==0.15.2
+fastapi==0.115.12
+uvicorn==0.34.2
+jinja2==3.1.6

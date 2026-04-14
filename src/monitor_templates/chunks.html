@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="panel">
+    <h2>Chunk inspector</h2>
+    <p class="help">Chunks are the text windows sent to the model. Overlap helps the model keep context when a fact spans a boundary.</p>
+    {% if selected_chunk %}
+      <div class="toolbar">
+        <a class="button-link" href="/chunks?chunk={{ selected_index if selected_index > 0 else 1 }}">Previous</a>
+        <form method="get" action="/chunks" class="jump-form">
+          <label for="chunk">Jump to chunk</label>
+          <select id="chunk" name="chunk" onchange="this.form.submit()">
+            {% for chunk in chunks %}
+              <option value="{{ chunk.position }}" {% if chunk.position - 1 == selected_index %}selected{% endif %}>
+                {{ chunk.id }}
+              </option>
+            {% endfor %}
+          </select>
+        </form>
+        <a class="button-link" href="/chunks?chunk={{ selected_index + 2 if selected_index + 1 < chunks|length else chunks|length }}">Next</a>
+      </div>
+
+      <div class="detail-grid">
+        <div class="panel subsection">
+          <h3>{{ selected_chunk.id }}</h3>
+          <p class="muted">
+            Pages {{ selected_chunk.page_start }} to {{ selected_chunk.page_end }}<br />
+            {{ selected_chunk.word_count }} words, {{ selected_chunk.char_count }} characters, {{ selected_chunk.line_count }} lines
+          </p>
+          <pre class="code-block">{{ selected_chunk.text }}</pre>
+        </div>
+
+        <div class="panel subsection">
+          <h3>Linked raw extraction</h3>
+          {% if selected_chunk.raw_extraction %}
+            <p>This chunk has a saved raw extraction record.</p>
+            <a class="button-link" href="/raw-extractions?item={{ selected_chunk.raw_extraction.position }}">Open raw extraction</a>
+            <p class="muted">Parsed entities: {{ selected_chunk.raw_extraction.parsed_entities|length }}<br />Parsed relations: {{ selected_chunk.raw_extraction.parsed_relations|length }}</p>
+          {% else %}
+            <div class="empty-state compact">
+              <p>Not available yet. No raw extraction record was found for this chunk.</p>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <h3>Not available yet</h3>
+        <p>{{ missing_message }}</p>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}

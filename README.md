@@ -117,7 +117,46 @@ python src/main.py visualize
 
 This reads `entities.json` and `relations.json` and rewrites `data/output/graph.html`.
 
-## 8. Run a sample query
+## 8. Run the monitoring UI
+
+The monitoring UI is a small read-only FastAPI app layered on top of the existing artifacts. It does not trigger ingestion or modify saved outputs.
+
+New dependencies:
+
+- `fastapi`
+- `uvicorn`
+- `jinja2`
+
+Start it from the project root:
+
+```bash
+uvicorn monitor_ui:app --app-dir src --reload
+```
+
+Then open:
+
+- `http://127.0.0.1:8000/monitor`
+- `http://127.0.0.1:8000/pdf-extraction`
+- `http://127.0.0.1:8000/chunks`
+- `http://127.0.0.1:8000/raw-extractions`
+- `http://127.0.0.1:8000/normalization`
+- `http://127.0.0.1:8000/graph`
+
+What it reads:
+
+- `data/extracted/chunks.json`
+- `data/extracted/raw_extractions.json`
+- `data/extracted/entities.json`
+- `data/extracted/relations.json`
+- `data/output/graph.html`
+
+Notes:
+
+- If an artifact is missing, the UI shows a friendly placeholder instead of crashing.
+- The PDF extraction page reads the source PDF in read-only mode so you can inspect the page text before chunking.
+- Neo4j status is probed with read-only count queries when credentials are configured; otherwise it is shown as not inferable from the local setup.
+
+## 9. Run a sample query
 
 Default query:
 
@@ -145,3 +184,11 @@ LIMIT 25
 - The model is instructed to only extract facts explicitly supported by each chunk, but LLM output can still be imperfect.
 - `visualize` uses the saved JSON artifacts, which makes it easy to inspect or tweak outputs without calling the API again.
 - This MVP is intentionally minimal and does not yet include embeddings, vector search, hybrid retrieval, or any production hardening.
+
+
+
+## some commands
+
+- python -m pip install uvicorn fastapi jinja2
+- python -m uvicorn monitor_ui:app --app-dir src --reload
+

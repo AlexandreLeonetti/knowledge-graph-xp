@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="panel">
+    <h2>Graph view</h2>
+    <p class="help">This page reuses the generated HTML graph instead of rebuilding visualization logic. It shows the final graph after normalization and storage preparation.</p>
+    {% if graph_artifact.exists %}
+      <div class="callout">
+        <strong>Graph artifact found:</strong> {{ graph_artifact.path.name }}<br />
+        <span>You can inspect it below or open the generated HTML directly.</span>
+      </div>
+      <p><a class="button-link" href="/graph-artifact" target="_blank" rel="noreferrer">Open graph in a new tab</a></p>
+      <iframe class="graph-frame" src="/graph-artifact" title="Generated graph"></iframe>
+    {% else %}
+      <div class="empty-state">
+        <h3>Not available yet</h3>
+        <p>The graph HTML file has not been generated yet.</p>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}

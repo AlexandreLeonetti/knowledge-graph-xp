@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="panel">
+    <h2>Normalization inspector</h2>
+    <p class="help">Normalization merges repeated or inconsistent names into cleaner graph objects. The result is what the Neo4j and HTML graph stages consume.</p>
+    {% if view.entity_count or view.relation_count %}
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-label">Unique entities</span>
+          <strong>{{ view.entity_count }}</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Unique relations</span>
+          <strong>{{ view.relation_count }}</strong>
+        </div>
+      </div>
+
+      <div class="panel subsection">
+        <h3>Entities</h3>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Canonical id</th>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Source mentions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for entity in view.entities %}
+              <tr>
+                <td><code>{{ entity.id }}</code></td>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.type }}</td>
+                <td>{{ entity.mentions_count }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="panel subsection">
+        <h3>Relations</h3>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Source entity</th>
+              <th>Target entity</th>
+              <th>Relation type</th>
+              <th>Originating chunk</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for relation in view.relations %}
+              <tr>
+                <td>{{ relation.source_name }}</td>
+                <td>{{ relation.target_name }}</td>
+                <td><code>{{ relation.relation }}</code></td>
+                <td>{{ relation.chunk_id or "Not available" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <h3>Not available yet</h3>
+        <p>Normalized entities and relations have not been written yet.</p>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}

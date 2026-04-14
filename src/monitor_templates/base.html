@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ page_title }} | KG PDF Monitor</title>
+    <link rel="stylesheet" href="{{ url_for('monitor-static', path='monitor.css') }}" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="shell">
+        <div class="title-block">
+          <p class="eyebrow">KG PDF MVP</p>
+          <h1>{{ page_title }}</h1>
+          <p class="lede">A read-only teaching view over the pipeline artifacts already written to disk.</p>
+        </div>
+        <nav class="nav">
+          <a href="/monitor">Home</a>
+          <a href="/pdf-extraction">PDF extraction</a>
+          <a href="/chunks">Chunks</a>
+          <a href="/raw-extractions">Raw extraction</a>
+          <a href="/normalization">Normalization</a>
+          <a href="/graph">Graph</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="shell">
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

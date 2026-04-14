@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="panel">
+    <h2>PDF extraction</h2>
+    <p class="help">This is the plain text recovered from the source PDF. It comes before chunking, so it helps explain what text the later stages had access to.</p>
+    {% if pdf_view.available %}
+      <div class="callout">
+        <strong>Source PDF:</strong> {{ pdf_view.pdf_path.name }}<br />
+        <span>{{ pdf_view.pages|length }} pages with extractable text</span>
+      </div>
+      {% for page in pdf_view.pages %}
+        <article class="panel subsection">
+          <h3>Page {{ page.page_number }}</h3>
+          <p class="muted">{{ page.word_count }} words, {{ page.char_count }} characters</p>
+          <pre class="code-block">{{ page.text }}</pre>
+        </article>
+      {% endfor %}
+    {% else %}
+      <div class="empty-state">
+        <h3>Not available yet</h3>
+        <p>{{ pdf_view.error }}</p>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}

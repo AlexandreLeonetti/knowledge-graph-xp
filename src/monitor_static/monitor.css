@@ -1,0 +1,256 @@
+:root {
+  --bg: #f5f1e8;
+  --panel: #fffdf8;
+  --border: #d9cfbf;
+  --text: #1d2a33;
+  --muted: #5f6b73;
+  --accent: #b85c38;
+  --accent-soft: #f6e3d7;
+  --ok: #2f6a4f;
+  --ok-soft: #ddeee3;
+  --warn: #8a5a00;
+  --warn-soft: #f8ecd1;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #efe7da 0%, var(--bg) 35%, #f8f5ef 100%);
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+a {
+  color: var(--accent);
+}
+
+.shell {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.site-header {
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 253, 248, 0.92);
+  backdrop-filter: blur(6px);
+}
+
+.title-block {
+  padding: 28px 0 12px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0 0 12px;
+  line-height: 1.15;
+}
+
+.lede,
+.help,
+.muted {
+  color: var(--muted);
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0 0 20px;
+}
+
+.nav a,
+.button-link {
+  display: inline-block;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 999px;
+}
+
+main.shell {
+  padding: 24px 0 48px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 30px rgba(57, 48, 34, 0.05);
+}
+
+.subsection {
+  margin-bottom: 0;
+}
+
+.stats-grid,
+.detail-grid,
+.stage-list {
+  display: grid;
+  gap: 14px;
+}
+
+.stats-grid {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+
+.detail-grid {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.stage-list {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.stat-card,
+.stage-card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  background: #fffaf2;
+}
+
+.stat-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.stage-head,
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.toolbar {
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  text-transform: lowercase;
+}
+
+.badge.ok {
+  background: var(--ok-soft);
+  color: var(--ok);
+}
+
+.badge.missing {
+  background: var(--warn-soft);
+  color: var(--warn);
+}
+
+.callout,
+.warning-box,
+.empty-state {
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-top: 16px;
+}
+
+.callout {
+  background: var(--accent-soft);
+  border: 1px solid #e1bda9;
+}
+
+.warning-box {
+  background: var(--warn-soft);
+  border: 1px solid #e7d49f;
+}
+
+.empty-state {
+  background: #f8f4eb;
+  border: 1px dashed var(--border);
+}
+
+.empty-state.compact {
+  margin-top: 0;
+}
+
+.code-block {
+  margin: 0;
+  padding: 16px;
+  background: #fcfaf6;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.jump-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+select {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 10px;
+  background: #fff;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.96rem;
+}
+
+.data-table th,
+.data-table td {
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.graph-frame {
+  width: 100%;
+  min-height: 820px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: #fff;
+}
+
+ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+
+@media (max-width: 720px) {
+  .shell {
+    width: min(100% - 20px, 1120px);
+  }
+
+  .panel {
+    padding: 16px;
+  }
+}

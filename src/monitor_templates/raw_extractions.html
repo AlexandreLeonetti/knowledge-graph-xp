@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="panel">
+    <h2>Raw extraction inspector</h2>
+    <p class="help">Raw extraction is the model output before cleanup. This page shows the exact stored response plus a defensive parsed view when possible.</p>
+    {% if selected_row %}
+      <div class="toolbar">
+        <a class="button-link" href="/raw-extractions?item={{ selected_index if selected_index > 0 else 1 }}">Previous</a>
+        <form method="get" action="/raw-extractions" class="jump-form">
+          <label for="item">Jump to record</label>
+          <select id="item" name="item" onchange="this.form.submit()">
+            {% for row in rows %}
+              <option value="{{ row.position }}" {% if row.position - 1 == selected_index %}selected{% endif %}>
+                {{ row.chunk_id }}
+              </option>
+            {% endfor %}
+          </select>
+        </form>
+        <a class="button-link" href="/raw-extractions?item={{ selected_index + 2 if selected_index + 1 < rows|length else rows|length }}">Next</a>
+      </div>
+
+      <div class="callout">
+        <strong>{{ selected_row.chunk_id }}</strong><br />
+        <span>Pages {{ selected_row.page_start }} to {{ selected_row.page_end }}</span>
+      </div>
+
+      {% if selected_row.warnings %}
+        <div class="warning-box">
+          <strong>Things to notice</strong>
+          <ul>
+            {% for warning in selected_row.warnings %}
+              <li>{{ warning }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      <div class="detail-grid">
+        <div class="panel subsection">
+          <h3>Stored raw JSON</h3>
+          <pre class="code-block">{{ selected_row.response_text }}</pre>
+        </div>
+        <div class="panel subsection">
+          <h3>Parsed view</h3>
+          <p class="muted">Entities: {{ selected_row.parsed_entities|length }}<br />Relations: {{ selected_row.parsed_relations|length }}</p>
+          <h4>Entities</h4>
+          <pre class="code-block">{{ selected_row.parsed_entities | pretty_json }}</pre>
+          <h4>Relations</h4>
+          <pre class="code-block">{{ selected_row.parsed_relations | pretty_json }}</pre>
+        </div>
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <h3>Not available yet</h3>
+        <p>{{ missing_message }}</p>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}

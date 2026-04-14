@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="panel">
+    <h2>Run summary</h2>
+    <p class="help">This page gives a compact view of the current saved run so you can see which pipeline stages already produced inspectable output.</p>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-label">Source document</span>
+        <strong>{{ home.source_name or "Not available yet" }}</strong>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Total pages</span>
+        <strong>{{ home.total_pages if home.total_pages is not none else "Not available yet" }}</strong>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Chunks</span>
+        <strong>{{ home.total_chunks }}</strong>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Raw records</span>
+        <strong>{{ home.total_raw_records }}</strong>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Normalized entities</span>
+        <strong>{{ home.total_entities }}</strong>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Normalized relations</span>
+        <strong>{{ home.total_relations }}</strong>
+      </div>
+    </div>
+    <div class="callout">
+      <strong>Neo4j load status:</strong> {{ home.neo4j_status.label }}<br />
+      <span>{{ home.neo4j_status.detail }}</span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Pipeline stages</h2>
+    <p class="help">Each stage below maps to one teaching step in the pipeline, from plain PDF text to the final graph view.</p>
+    <div class="stage-list">
+      {% for stage in home.stages %}
+        <article class="stage-card">
+          <div class="stage-head">
+            <h3>{{ stage.name }}</h3>
+            <span class="badge {{ 'ok' if stage.available else 'missing' }}">{{ 'available' if stage.available else 'missing' }}</span>
+          </div>
+          <p>{{ stage.description }}</p>
+          <p class="muted">{{ stage.detail }}</p>
+          <a class="button-link" href="{{ stage.href }}">Inspect stage</a>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}
